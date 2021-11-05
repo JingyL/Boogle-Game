@@ -3,7 +3,9 @@
 
 {% block content %}
 
-<h1>Start a Survey: {{title}}</h1>
+<h1>Boggle Game</h1>
+<!-- show board -->
+<section id="table">
 <table>
     {% for y in board %}
     <tr>
@@ -13,4 +15,24 @@
     </tr>
     {% endfor %}
 </table>
+</section>
+<!-- Try words -->
+<form action="" id="submitWords">
+        <label>Try your words</label>
+        <input name="word" placeholder="type a word">
+        <button>Submit</button>
+</form>
+<!-- Score -->
+<h2>High Score: {{number}} in {{times}} plays</h2>
+
+<!-- Time -->
+<h2 id = "score">Score: {{score}}</h2>
+<h2 id = "secs">Seconds Left: {{seconds}}s</h2>
+
+<!-- result -->
+<div>
+    <ul id="words">
+
+    </ul>
+</div>
 {% endblock %}
