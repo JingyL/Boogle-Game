@@ -13,6 +13,7 @@ boggle_game = Boggle()
 
 @app.route("/board")
 def show_board():
+    """get information to show on board"""
     board_game = boggle_game.make_board()
     session["board"] = board_game
     highscore = session.get("highscore", 0)
@@ -26,6 +27,7 @@ def show_board():
 
 @app.route("/check-word")
 def check_word():
+    """get user word and check validity"""
     word = request.args["word"]
     board = session.get("board")
     result = boggle_game.check_valid_word(board, word)
@@ -34,13 +36,13 @@ def check_word():
 
 @app.route("/post-score", methods=["POST"])
 def find_high_score():
+    """get score and compare to select the higher score"""
     score = request.json["score"]
     highscore = session.get("highscore", 0)
     if (highscore > score):
         session["highscore"] = highscore
     else:
         session["highscore"] = score
-
     highscore = session.get("highscore", 0)
     numOfPlay = session.get("numOfPlay", 0)
     session["numOfPlay"] = numOfPlay + 1
