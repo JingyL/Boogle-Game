@@ -32,3 +32,14 @@ form{
 label {
     font-size: 20px;
 }
+
+ul {
+    text-align: center;
+    font-size: 16px;
+    font-family: 'Josefin Sans', sans-serif;
+}
+    
+li {
+    display: inline-block;
+    color:coral;
+}

@@ -69,7 +69,7 @@ async function countDown(sec) {
     }, 1000);
 }
 
-countDown(10);
+countDown(60);
 
 
 // send score to server
