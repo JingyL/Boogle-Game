@@ -1,80 +1,82 @@
-// class BoggleGame{
-//     constructor(boardId, times = 120){
-//         this.secs = times;
-//         this.score = 0;
-//         this.words =[];
-//         this.board = $("#" + boardId);
-
-//         // every 1000 msec, "tick"
-//         this.timer = setInterval(this.tick.bind(this), 1000);
-//     }
-// }
-
-
-const word = document.querySelector("input");
-let word_Array = [];
-let score = 0;
-let score_Array = [];
-
-// button trigger function
-$("#submitWords").on('submit', async function (event) {
-    event.preventDefault();
-    await show_words();
-    await add_score();
-});
-
-// check if word is ok or not
-async function checkWord() {
-    let response = await axios.get('/check-word',
-        { params: { word: word.value } });
-    return response.data;
-}
-
-// show words if its okay other than do nothing
-async function show_words() {
-    let response = await checkWord();
-    console.log(response);
-    console.log(word.value);
-    if (response === "ok") {
-        console.log(word.value);
-        word_Array.push(word.value);
-        $('#words').append($("<li>", { text: word.value }));
-    } else if (response === "not-on-board") {
-        return
-    } else if (response === "not-word") {
-        return
+class BoggleGame {
+    constructor(times = 60) {
+        this.secs = times;
+        this.score = 0;
+        this.words = [];
+        this.board = $("#table");
+        // button trigger function
+        $('#submitWords').on('submit', this.triggerFunctions.bind(this));
     }
-}
 
-// score
-async function add_score() {
-    let response = await checkWord();
-    if (response === "ok") {
-        score += 1;
-        $('#score').text("Score: " + score);
+    async triggerFunctions(event) {
+        event.preventDefault();
+        await this.checkWord();
+        if (this.secs === 0) {
+            $("#msg").text(" Out of time");
+            return;
+        }
+        await this.show_words();
+        this.add_score();
     }
-}
 
-// timer countdown
+    // check if word is ok or not
+    async checkWord() {
+        const word = $('.guessword').val();
+        console.log(word)
+        console.log("time", this.secs)
+        let response = await axios.get('/check-word',
+                { params: { word: word } });
+        let result = response.data;
+        if (result === "ok") {
+            this.words.push(word);
+            console.log( this.words)
+        } else if (result === "not-on-board") {
+            return
+        } else if (result === "not-word") {
+            return
+        }
+    }
 
-async function countDown(sec) {
-    let secs = setInterval(async function () {
-        sec--;
-        $('#secs').text("Seconds Left: " + sec + "s");
-        if (sec <= 0) {
-            clearInterval(secs);
-            $('#secs').text("Seconds Left: " + 0 +"s");    
-            await post_score();        
-        } 
-    }, 1000);
-}
+    // show words if its okay other than do nothing
+    async show_words() {
+        let lastIdx = this.words.length - 1;
+        let word = this.words[lastIdx]
+        $('ul').append($("<li>", { text: word}));
+        // $('ul').empty();
+        // $.each(this.words, function(index, item) {
+        //     $('ul').append($("<li>", { text: item}));
+        // });
+    }
 
-countDown(60);
+    // score
+   add_score() {
+            this.score = this.words.length;
+            $('#score').text("Score: " + this.score);
+    }
+
+    // timer countdown
+
+    async countDown(sec) {
+        let game = this;
+        let secs = setInterval(async function () {
+            sec--;
+            game.secs=sec;
+            $('#secs').text("Seconds Left: " + sec + "s");
+            if (sec <= 0) {
+                clearInterval(secs);
+                $('#secs').text("Seconds Left: " + 0 + "s");
+                await game.post_score();
+            }
+        }, 1000);
+    }
 
 
-// send score to server
-async function post_score() {
-    console.log("score" , score)
-    let response = await axios.post('/post-score', { score: score});
-    console.log(response.data)
+    // send score to server
+    async post_score() {
+        console.log("score", this.score)
+        let response = await axios.post('/post-score', { score: this.score });
+        console.log(response.data)
+    }
+
+
 }
