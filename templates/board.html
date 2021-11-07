@@ -19,7 +19,7 @@
 <!-- Try words -->
 <form method="POST" id="submitWords">
         <label>Try your words</label>
-        <input name="word" placeholder="type a word" autofocus>
+        <input class="guessword" name="word" placeholder="type a word" autofocus>
         <button>Submit</button>
 </form>
 <!-- Score -->
@@ -27,8 +27,10 @@
 
 <!-- Time -->
 <h2 id = "score">Score: {{score}}</h2>
-<h2 id = "secs">Seconds Left: {{seconds}}s</h2>
+<h2 id = "secs"></h2>
 
+<!-- msg to alert -->
+<h3 id="msg"></h3>
 <!-- result -->
 <div>
     <ul id="words">

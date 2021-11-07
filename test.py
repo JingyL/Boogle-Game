@@ -22,7 +22,9 @@ class FlaskTests(TestCase):
             self.assertIsNone(session.get('highscore'))
             self.assertIsNone(session.get('numOfPlay'))
             # response data, what is it?
+
             self.assertIn(b'Score:', response.data)
+            print(response.data)
             self.assertIn(b'Seconds Left:', response.data)
             self.assertIn(b'High Score:', response.data)
 

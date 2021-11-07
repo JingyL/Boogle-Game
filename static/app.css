@@ -40,6 +40,6 @@ ul {
 }
     
 li {
-    display: inline-block;
+    list-style-type: none;
     color:coral;
 }

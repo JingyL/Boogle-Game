@@ -22,7 +22,7 @@ def show_board():
     return render_template("/board.html",
     board = session["board"],
     number=highscore, times=numOfPlay,
-    score=0, seconds=60)
+    score=0)
 
 
 @app.route("/check-word")
