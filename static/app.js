@@ -16,6 +16,7 @@ class BoggleGame {
             $("#msg").text(" Out of time!!!");
             return;
         }
+
         await this.show_words();
         this.add_score();
     }
@@ -36,17 +37,20 @@ class BoggleGame {
                 console.log( this.words)
             }
         } else if (result === "not-on-board") {
+            $("#msg").text("Not this word!");
             return
         } else if (result === "not-word") {
+            $("#msg").text("Not a word!");
             return
         }
     }
 
     // show words if its okay other than do nothing
     async show_words() {
-        let lastIdx = this.words.length - 1;
-        let word = this.words[lastIdx]
-        $('ul').append($("<li>", { text: word}));
+        $('ul').empty();
+        $.each(this.words, function(index, item) {
+            $('ul').append($("<li>", { text: item}));
+        });
     }
 
     // score
