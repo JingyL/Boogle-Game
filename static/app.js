@@ -8,11 +8,12 @@ class BoggleGame {
         $('#submitWords').on('submit', this.triggerFunctions.bind(this));
     }
 
+    // trigger the submit button and operate other functions
     async triggerFunctions(event) {
         event.preventDefault();
         await this.checkWord();
         if (this.secs === 0) {
-            $("#msg").text(" Out of time");
+            $("#msg").text(" Out of time!!!");
             return;
         }
         await this.show_words();
@@ -28,8 +29,12 @@ class BoggleGame {
                 { params: { word: word } });
         let result = response.data;
         if (result === "ok") {
-            this.words.push(word);
-            console.log( this.words)
+            if(this.words.includes(word)){
+                $("#msg").text("The word has already existed");
+            }else{
+                this.words.push(word);
+                console.log( this.words)
+            }
         } else if (result === "not-on-board") {
             return
         } else if (result === "not-word") {
@@ -42,10 +47,6 @@ class BoggleGame {
         let lastIdx = this.words.length - 1;
         let word = this.words[lastIdx]
         $('ul').append($("<li>", { text: word}));
-        // $('ul').empty();
-        // $.each(this.words, function(index, item) {
-        //     $('ul').append($("<li>", { text: item}));
-        // });
     }
 
     // score

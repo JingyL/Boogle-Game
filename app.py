@@ -16,13 +16,16 @@ def show_board():
     """get information to show on board"""
     board_game = boggle_game.make_board()
     session["board"] = board_game
-    highscore = session.get("highscore", 0)
     # why session["numOfPlay"] = 0 won't work?
+    # previous code I wrote:   it shows issue of Name Error, highscore is not defined
+    # session["numOfPlay"] = 0
+    # session["highscore"] = 0
+    highscore = session.get("highscore", 0)
     numOfPlay = session.get("numOfPlay", 0)
     return render_template("/board.html",
     board = session["board"],
-    number=highscore, times=numOfPlay,
-    score=0)
+    number = highscore, times = numOfPlay,
+    score = 0)
 
 
 @app.route("/check-word")

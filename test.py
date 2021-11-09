@@ -21,8 +21,6 @@ class FlaskTests(TestCase):
             self.assertIn('board', session)
             self.assertIsNone(session.get('highscore'))
             self.assertIsNone(session.get('numOfPlay'))
-            # response data, what is it?
-
             self.assertIn(b'Score:', response.data)
             print(response.data)
             self.assertIn(b'Seconds Left:', response.data)
@@ -41,7 +39,9 @@ class FlaskTests(TestCase):
                 ]
             
         response = self.client.get('/check-word?word=to')
-        # without b'ok' it shows [wrappertst response streamed[200 ok]? how to fix it instead using b'ok'
+        # without b'ok' it shows [wrappertst response streamed[200 ok]? 
+        # How to make response.data = ok here?
+        # I tried to use jsonify here, but does not work.
         self.assertEqual(response.data, b'ok')
 
     def test_not_valid_word(self):
