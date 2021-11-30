@@ -37,7 +37,7 @@ class FlaskTests(TestCase):
                     ['D', 'W', 'L', 'K', 'Q'],
                     ['L', 'F', 'W', 'T', 'N']
                 ]
-            
+        
         response = self.client.get('/check-word?word=to')
         # without b'ok' it shows [wrappertst response streamed[200 ok]? 
         # How to make response.data = ok here?
